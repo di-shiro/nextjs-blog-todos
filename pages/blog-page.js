@@ -3,7 +3,20 @@ import Link from "next/link";
 import { getAllPostsData } from "../lib/posts";
 import Post from "../components/Post";
 
+// *****
+
+import { getStaticPaths00, getStaticProps00 } from "./posts/test-blog-list";
+
 export default function BlogPage({ filteredPosts }) {
+  async function log() {
+    // await console.log("■ getStaticPaths00", getStaticPaths00());
+    // await console.log("■ getStaticProps00", getStaticProps00({ params: 1 }));
+    await getStaticPaths00();
+    await getStaticProps00({ params: { id: 1 } });
+  }
+  log();
+
+  console.log("■ 0 : ", { filteredPosts });
   return (
     <Layout title="Blog Page">
       <ul>
@@ -38,5 +51,6 @@ export async function getStaticProps() {
   const filteredPosts = await getAllPostsData();
   return {
     props: { filteredPosts: filteredPosts },
+    revalidate: 3,
   };
 }
